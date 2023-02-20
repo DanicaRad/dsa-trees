@@ -16,55 +16,37 @@ class BinaryTree {
   /** minDepth(): return the minimum depth of the tree -- that is,
    * the length of the shortest path from the root to a leaf. */
 
-  minDepth() {
-    let queue = [this.root];
-    let depth = 0;
-    while(queue.length) {
-      let current = queue.shift();
-      if(current) {
-        depth += 1;
-        if(!current.left || !current.right) return depth;
-        queue.push(current.left);
-        queue.push(current.right);
-      }
-    }
-    return depth;
-  }
 
-  /** minDepth with recursion
-   * 
-   * minDepth(queue=[this.root], depth=0) {
-    if(queue.length === 0) return depth;
-      let current = queue.shift();
-      if(current) {
-        if(!current.left || !current.right) return depth + 1;
-        queue.push(current.left);
-        queue.push(current.right);
-        return this.minDepth(queue, depth + 1);
+  minDepth() {
+    function minDepthHelper(node, depth=0) {
+      if(node === null) {
+        return depth;
       }
-      return depth;
+      let leftDepth = minDepthHelper(node.left, depth + 1);
+      let rightDepth = minDepthHelper(node.right, depth + 1);
+
+      if(leftDepth <= rightDepth) return leftDepth;
+      return rightDepth;
+    }
+    return minDepthHelper(this.root);
   }
-   */
 
 
   /** maxDepth(): return the maximum depth of the tree -- that is,
    * the length of the longest path from the root to a leaf. */
-
-  // depth first try
+  
   maxDepth() {
-    let depth = this.root ? 1 : 0;
-    let stack = [this.root];
-
-    while(stack.length) {
-      let current = stack.pop();
-      if(current) {
-        depth += 1;
-        if(!current.left && !current.right) return depth;
-        if(current.left.left || current.left.right) stack.push(current.left)
-        if(current.right.left || current.right.right) stack.push(current.right);
+    function maxDepthHelper(node, depth=0) {
+      if(node === null) {
+        return depth;
       }
+      let leftDepth = maxDepthHelper(node.left, depth + 1);
+      let rightDepth = maxDepthHelper(node.right, depth + 1);
+
+      if(leftDepth >= rightDepth) return leftDepth;
+      return rightDepth;
     }
-    return depth;
+    return maxDepthHelper(this.root);
   }
 
 
@@ -85,43 +67,6 @@ class BinaryTree {
     maxSumHelper(this.root);
     return result;
   }
-
-  // maxSum() {
-  //   let stack = [this.root];
-  //   let sum = 0;
-  //   while(stack.length) {
-  //     console.log("stack", stack);
-  //     let current = stack.pop();
-  //     console.log("current", current);
-  //     if(current) {
-  //       sum += current.val;
-  //       let left = this.maxSumHelper(current.left, 0);
-  //       let right = this.maxSumHelper(current.right, 0);
-  //       if(right > left) {
-  //         return sum += right;
-  //       }
-  //       return sum += left;
-  //     }
-  //   }
-  // }
-
-  // maxSumHelper(stack, highSum = 0) {
-  //   let sum = 0;
-  //   while(stack.length) {
-  //     let current = stack.pop();
-  //     if(current) {
-  //       sum += current.val;
-  //       console.log("sum in helper", sum);
-  //       stack.push(current.left);
-  //       stack.push(current.right);
-  //     }
-  //     if(!current.left && !current.right) {
-  //       if(sum > highSum) highSum = sum;
-  //       return this.maxSum(stack, highSum);
-  //     }
-  //   }
-  //   return highSum;
-  // }
 
   /** nextLarger(lowerBound): return the smallest value in the tree
    * which is larger than lowerBound. Return null if no such value exists. */

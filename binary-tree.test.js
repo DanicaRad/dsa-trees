@@ -3,6 +3,7 @@ const { BinaryTree, BinaryTreeNode } = require("./binary-tree");
 let smallTree;
 let largeTree;
 let emptyTree;
+let bigTree;
 
 beforeEach(function() {
   emptyTree = new BinaryTree();
@@ -22,21 +23,41 @@ beforeEach(function() {
   let node1 = new BinaryTreeNode(5);
   let root = new BinaryTreeNode(6, node1, node2);
   largeTree = new BinaryTree(root);
+
+  // build bigTree
+  let n12 = new BinaryTreeNode(3);
+  let n11 = new BinaryTreeNode(2);
+  let n10 = new BinaryTreeNode(0, n11, n12);
+  let n9 = new BinaryTreeNode(2, null, n10);
+  let n8 = new BinaryTreeNode(1);
+  let n7 = new BinaryTreeNode(6, n8, n9);
+  let n6 = new BinaryTreeNode(1);
+  let n5 = new BinaryTreeNode(0);
+  let n4 = new BinaryTreeNode(2);
+  let n3 = new BinaryTreeNode(3, n5, n6);
+  let n2 = new BinaryTreeNode(4, n4, null);
+  let n1 = new BinaryTreeNode(5, n2, n3);
+  let bigRoot = new BinaryTreeNode(1, n1, n7);
+  bigTree = new BinaryTree(bigRoot);
 });
 
-// describe("minDepth", function() {
-//   it("handles simple trees", function() {
-//     expect(smallTree.minDepth()).toBe(2);
-//   });
+describe("minDepth", function() {
+  it("handles simple trees", function() {
+    expect(smallTree.minDepth()).toBe(2);
+  });
 
-//   it("handles more complex trees", function() {
-//     expect(largeTree.minDepth()).toBe(2);
-//   });
+  it("handles more complex trees", function() {
+    expect(largeTree.minDepth()).toBe(2);
+  });
 
-//   it("handles empty trees", function() {
-//     expect(emptyTree.minDepth()).toBe(0);
-//   });
-// });
+  it("handles big trees", function() {
+    expect(bigTree.minDepth()).toBe(3);
+  })
+
+  it("handles empty trees", function() {
+    expect(emptyTree.minDepth()).toBe(0);
+  });
+});
 
 describe("maxDepth", function() {
   it("handles simple trees", function() {
@@ -47,36 +68,44 @@ describe("maxDepth", function() {
     expect(largeTree.maxDepth()).toBe(4);
   });
 
+  it("handles big trees", function() {
+    expect(bigTree.maxDepth()).toBe(5);
+  })
+
   it("handles empty trees", function() {
     expect(emptyTree.maxDepth()).toBe(0);
   });
 });
 
-// describe("maxSum", function() {
-//   it("handles simple trees", function() {
-//     expect(smallTree.maxSum()).toBe(16);
-//   });
+describe("maxSum", function() {
+  it("handles simple trees", function() {
+    expect(smallTree.maxSum()).toBe(16);
+  });
 
-//   it("handles empty trees", function() {
-//     expect(emptyTree.maxSum()).toBe(0);
-//   });
+  it("handles empty trees", function() {
+    expect(emptyTree.maxSum()).toBe(0);
+  });
 
-//   it("handles more complex trees", function() {
-//     expect(largeTree.maxSum()).toBe(21);
-//   });
+  it("handles big trees", function() {
+    expect(bigTree.maxSum()).toBe(23);
+  })
 
-//   it("handles negative values", function() {
-//     let node100 = new BinaryTreeNode(100);
-//     let node8 = new BinaryTreeNode(8);
-//     let nodeNeg4 = new BinaryTreeNode(-4);
-//     let node2 = new BinaryTreeNode(2, nodeNeg4);
-//     let nodeNeg3 = new BinaryTreeNode(-3, node8, node100);
-//     let root = new BinaryTreeNode(10, node2, nodeNeg3);
-//     let tree = new BinaryTree(root);
+  it("handles more complex trees", function() {
+    expect(largeTree.maxSum()).toBe(21);
+  });
 
-//     expect(tree.maxSum()).toBe(109);
-//   });
-// });
+  it("handles negative values", function() {
+    let node100 = new BinaryTreeNode(100);
+    let node8 = new BinaryTreeNode(8);
+    let nodeNeg4 = new BinaryTreeNode(-4);
+    let node2 = new BinaryTreeNode(2, nodeNeg4);
+    let nodeNeg3 = new BinaryTreeNode(-3, node8, node100);
+    let root = new BinaryTreeNode(10, node2, nodeNeg3);
+    let tree = new BinaryTree(root);
+
+    expect(tree.maxSum()).toBe(109);
+  });
+});
 
 describe("nextLarger", function() {
   it("handles simple trees", function() {
